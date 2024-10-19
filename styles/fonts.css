@@ -1,0 +1,13 @@
+@font-face {
+    font-family: "dannight";
+    src: url("../fonts/DangerNightPersonalUse-owdl4.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "blacknort";
+    src: url("../fonts/Blacknorthdemo-mLE25.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Adventure</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="icon" type="image/x-icon" href="assets/symbol.png">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="main-part">
+            <div class="title-block">
+                <img id="title-block_symbol" src="assets/symbol.png" alt="Символ кубика">
+                <div id="title-block_name">Dice Adventure</div>
+            </div>
+            <div class="main-screen">
+
+            </div>
+        </div>
+        <div class="side-part">
+            <div class="side-part__box">
+                <div class="side-part__title">Dice Roll <span id="side-part__number-roll"></span></div>
+                <div class="side-part__screen">
+                    <button id="throw-dice">Roll the dice</button>
+                    <div class="side-part__dice">
+                        <img class='side-part__result side-part__result_hidden' id="dice_r_1" src="assets/dice_r_1.png"
+                            alt="Result of dice is 1">
+                        <img class='side-part__result side-part__result_hidden' id="dice_r_2" src="assets/dice_r_2.png"
+                            alt="Result of dice is 2">
+                        <img class='side-part__result side-part__result_hidden' id="dice_r_3" src="assets/dice_r_3.png"
+                            alt="Result of dice is 3">
+                        <img class='side-part__result side-part__result_hidden' id="dice_r_4" src="assets/dice_r_4.png"
+                            alt="Result of dice is 4">
+                        <img class='side-part__result side-part__result_hidden' id="dice_r_5" src="assets/dice_r_5.png"
+                            alt="Result of dice is 5">
+                        <img class='side-part__result side-part__result_hidden' id="dice_r_6" src="assets/dice_r_6.png"
+                            alt="Result of dice is 6">
+                    </div>
+                </div>
+            </div>
+            <div class="side-part__box">
+                <div class="side-part__title side-part__title-event">Event</div>
+                <div class="side-part__screen">
+                    <div class="side-part__text-event side-part__text-event_hidden"></div>
+                </div>
+            </div>
+            <!--- <button class="wow"></button> --->
+        </div>
+    </div>
+    <!---    <div class="game-information">
+        <div class="game-information__title">Rules of Dice Adventure</div>
+        <div class="game-information__rules">
+            <li class="game-information__rule">Цель - добраться до финиша 86-й клетки, бросая кубик</li>
+            <li class="game-information__rule">2</li>
+            <li class="game-information__rule"></li>
+            <li class="game-information__rule"></li>
+            <li class="game-information__rule"></li>
+            <li class="game-information__rule"></li>
+        </div>
+    </div> --->
+    <script src="specialQuestsCell.js"></script>
+    <script src="path.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
