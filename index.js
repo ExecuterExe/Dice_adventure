@@ -228,8 +228,6 @@ function showTaskTruth(numberTaskTruth) {
     const contentOfTruth = document.querySelector('.side-part__text-event');
     contentOfTruth.textContent = truthList[numberTaskTruth];
 
-    // Открываем модальное окно с заданием
-    showEventModal('truth', numberTaskTruth);
 }
 
 function returnDefaultEventBlock() {
@@ -255,8 +253,7 @@ function showTaskActivity(numberTask) {
     const contentOfActivity = document.querySelector('.side-part__text-event');
     contentOfActivity.textContent = activityList[numberTask];
 
-    // Открываем модальное окно с заданием
-    showEventModal('activity', numberTask);
+
 }
 
 function showEventLuckThrow() {
@@ -290,8 +287,7 @@ function showEventLetter() {
 
     contentEvent.textContent = task;
 
-    // Показываем модалку
-    showEventLetterModal(letter, word, task);
+
 }
 
 
@@ -538,8 +534,6 @@ function showTaskTruth(numberTaskTruth) {
     const contentOfTruth = document.querySelector('.side-part__text-event');
     contentOfTruth.textContent = truthList[numberTaskTruth];
 
-    // Открываем модальное окно с заданием
-    showEventModal('truth', numberTaskTruth);
 }
 
 function showTaskActivity(numberTask) {
@@ -547,8 +541,7 @@ function showTaskActivity(numberTask) {
     const contentOfActivity = document.querySelector('.side-part__text-event');
     contentOfActivity.textContent = activityList[numberTask];
 
-    // Открываем модальное окно с заданием
-    showEventModal('activity', numberTask);
+
 }
 
 // Добавляем стили для модального окна
