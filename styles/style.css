@@ -2,7 +2,7 @@
 @import url('fonts.css');
 
 body {
-    background: radial-gradient(circle, rgba(224, 242, 241, 1) 0%, rgba(124, 148, 162, 1) 100%);
+    background: radial-gradient(circle, rgba(224, 242, 241, 1) 0%, rgb(0, 133, 135) 100%);
 }
 
 .wrapper {

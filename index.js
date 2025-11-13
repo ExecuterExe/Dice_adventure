@@ -55,7 +55,7 @@ btnDice.addEventListener('click', () => {
     showNumberRoll();
 
     let intervalId;
-    const duration = 3000;
+    const duration = 1000;
 
 
 
