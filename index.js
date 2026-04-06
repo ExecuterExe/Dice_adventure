@@ -153,7 +153,6 @@ function setCellClasses(cell, cellNumber) {
 
 }
 
-// идентифицируем клетку, на которой остановилась фишка
 function identifyTypeCell() {
     const chipPosition = document.querySelector('.main-screen__cell_chip-position');
     returnDefaultEventBlock();
@@ -167,7 +166,6 @@ function identifyTypeCell() {
         const numberTaskTruth = getRandomNumber(1, 40);
         showTitleEvent(numberTaskTruth);
         showTaskTruth(numberTaskTruth);
-        // Модальное окно вызывается внутри showTaskTruth
     }
 
     if (chipPosition.classList.contains('main-screen__cell_activity')) {
@@ -190,7 +188,6 @@ function identifyTypeCell() {
     if (chipPosition.classList.contains('main-screen__cell_letter')) {
         doVisibleEventContent();
         showEventLetter();
-        // Убедитесь, что здесь вызывается showEventLetter
     }
 }
 
@@ -224,10 +221,11 @@ function showTitleEvent(numberTask) {
 }
 
 function showTaskTruth(numberTaskTruth) {
-    // Показываем информацию в боковом блоке
     const contentOfTruth = document.querySelector('.side-part__text-event');
-    contentOfTruth.textContent = truthList[numberTaskTruth];
+    const text = truthList[numberTaskTruth];
+    contentOfTruth.textContent = text.split('\n')[0];
 
+    showQuestionModal('truth', numberTaskTruth);
 }
 
 function returnDefaultEventBlock() {
@@ -253,7 +251,8 @@ function showTaskActivity(numberTask) {
     const contentOfActivity = document.querySelector('.side-part__text-event');
     contentOfActivity.textContent = activityList[numberTask];
 
-
+    // Показываем модальное окно
+    showQuestionModal('activity', numberTask);
 }
 
 function showEventLuckThrow() {
@@ -284,10 +283,10 @@ function showEventLetter() {
 
     titleEvent.textContent = `Буква ${letter} — ${word}`;
     titleEvent.style.color = '#8e44ad';
-
     contentEvent.textContent = task;
 
-
+    // Показываем модальное окно
+    showQuestionModal('letter', cellNumber);
 }
 
 
@@ -432,7 +431,6 @@ addImageToCell('CellNumber_83', 'assets/arrow_up.png', 'arrow_up');
 
 
 
-// Функция для отображения модального окна с заданием и картинкой
 function showEventModal(taskType, taskNumber) {
     const truthImagesMap = {
         1: 'assets/truth1.jpg',
@@ -450,21 +448,17 @@ function showEventModal(taskType, taskNumber) {
 
 
     console.log(`Показываю модальное окно: ${taskType} #${taskNumber}`);
-    // Удаляем предыдущее модальное окно, если оно существует
     let oldModal = document.querySelector('.event-modal');
     if (oldModal) {
         oldModal.remove();
     }
 
-    // Создаем модальное окно
     const modal = document.createElement('div');
     modal.classList.add('event-modal');
 
-    // Создаем контейнер для контента
     const modalContent = document.createElement('div');
     modalContent.classList.add('event-modal-content');
 
-    // Добавляем крестик для закрытия
     const closeBtn = document.createElement('span');
     closeBtn.classList.add('close-modal');
     closeBtn.innerHTML = '&times;';
@@ -472,7 +466,6 @@ function showEventModal(taskType, taskNumber) {
         modal.style.display = 'none';
     };
 
-    // Создаем заголовок в зависимости от типа задания
     const modalTitle = document.createElement('div');
     modalTitle.classList.add('event-modal-title');
 
@@ -484,11 +477,9 @@ function showEventModal(taskType, taskNumber) {
         modalTitle.style.color = '#869bbe';
     }
 
-    // Создаем контейнер для изображения (если есть)
     const imageContainer = document.createElement('div');
     imageContainer.classList.add('event-modal-image-container');
 
-    // Проверяем наличие изображения и добавляем его
     let hasImage = false;
     if (taskType === 'truth' && truthImagesMap[taskNumber]) {
         const img = document.createElement('img');
@@ -504,7 +495,6 @@ function showEventModal(taskType, taskNumber) {
         hasImage = true;
     }
 
-    // Создаем текст задания
     const taskText = document.createElement('div');
     taskText.classList.add('event-modal-text');
     if (taskType === 'truth') {
@@ -513,7 +503,6 @@ function showEventModal(taskType, taskNumber) {
         taskText.textContent = activityList[taskNumber];
     }
 
-    // Собираем всё в модальное окно
     modalContent.appendChild(closeBtn);
     modalContent.appendChild(modalTitle);
     if (hasImage) {
@@ -524,27 +513,12 @@ function showEventModal(taskType, taskNumber) {
     modal.appendChild(modalContent);
     document.body.appendChild(modal);
 
-    // Показываем модальное окно
     modal.style.display = 'flex';
 }
 
-// Модифицируем функции показа заданий/вопросов
-function showTaskTruth(numberTaskTruth) {
-    // Показываем информацию в обычном блоке
-    const contentOfTruth = document.querySelector('.side-part__text-event');
-    contentOfTruth.textContent = truthList[numberTaskTruth];
-
-}
-
-function showTaskActivity(numberTask) {
-    // Показываем информацию в обычном блоке
-    const contentOfActivity = document.querySelector('.side-part__text-event');
-    contentOfActivity.textContent = activityList[numberTask];
 
 
-}
 
-// Добавляем стили для модального окна
 function addModalStyles() {
     const styleSheet = document.createElement("style");
     styleSheet.textContent = `
@@ -612,7 +586,6 @@ function addModalStyles() {
     document.head.appendChild(styleSheet);
 }
 
-// Вызываем функцию добавления стилей при загрузке страницы
 document.addEventListener('DOMContentLoaded', function () {
     addModalStyles();
 });
@@ -634,11 +607,9 @@ function addLetterCells() {
 }
 
 function showEventLetterModal(letter, word, task) {
-    // Удаление прошлого модального окна
     let oldModal = document.querySelector('.event-modal');
     if (oldModal) oldModal.remove();
 
-    // Создание нового модального окна
     const modal = document.createElement('div');
     modal.classList.add('event-modal');
 
@@ -668,3 +639,348 @@ function showEventLetterModal(letter, word, task) {
     modal.style.display = 'flex';
 }
 
+function showQuestionModal(taskType, taskNumber) {
+    let oldModal = document.querySelector('.event-modal');
+    if (oldModal) oldModal.remove();
+
+    let taskText = '';
+    let titleText = '';
+    let titleColor = '';
+    let modalClass = '';
+    let icon = '';
+
+    if (taskType === 'truth') {
+        taskText = truthList[taskNumber];
+        titleText = `🧠 Truthium #${taskNumber}`;
+        titleColor = '#2e7d32';
+        modalClass = 'truth-modal';
+        icon = '❓';
+    } else if (taskType === 'activity') {
+        taskText = activityList[taskNumber];
+        titleText = `🎭 Activitium #${taskNumber}`;
+        titleColor = '#f57c00';
+        modalClass = 'activity-modal';
+        icon = '🎬';
+    } else if (taskType === 'letter') {
+        const letterData = letterCellMap[taskNumber];
+        if (letterData) {
+            taskText = letterData.task;
+            titleText = `📚 Буква "${letterData.letter}" — ${letterData.word}`;
+            titleColor = '#7b1fa2';
+            modalClass = 'letter-modal';
+            icon = '💡';
+        }
+    }
+
+    const modal = document.createElement('div');
+    modal.classList.add('event-modal');
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('event-modal-content', modalClass);
+
+    const closeBtn = document.createElement('span');
+    closeBtn.classList.add('close-modal');
+    closeBtn.innerHTML = '&times;';
+    closeBtn.onclick = () => modal.remove();
+
+    const iconDiv = document.createElement('div');
+    iconDiv.classList.add('event-modal-icon');
+    iconDiv.textContent = icon;
+
+    const modalTitle = document.createElement('div');
+    modalTitle.classList.add('event-modal-title');
+    modalTitle.textContent = titleText;
+    modalTitle.style.color = titleColor;
+
+    const taskContainer = document.createElement('div');
+    taskContainer.classList.add('event-modal-task');
+
+    if (taskType === 'truth' && taskText && taskText.includes('\n')) {
+        const lines = taskText.split('\n');
+
+        const questionDiv = document.createElement('div');
+        questionDiv.classList.add('event-modal-question');
+        questionDiv.textContent = lines[0];
+        taskContainer.appendChild(questionDiv);
+
+        const optionsContainer = document.createElement('div');
+        optionsContainer.classList.add('event-modal-options');
+
+        for (let i = 1; i < lines.length; i++) {
+            if (lines[i].trim()) {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('event-modal-option');
+                optionDiv.textContent = lines[i];
+                optionsContainer.appendChild(optionDiv);
+            }
+        }
+        taskContainer.appendChild(optionsContainer);
+    } else {
+
+        const textDiv = document.createElement('div');
+        textDiv.classList.add('event-modal-text');
+        textDiv.textContent = taskText || 'Задание не найдено';
+        taskContainer.appendChild(textDiv);
+    }
+
+
+    const confirmBtn = document.createElement('button');
+    confirmBtn.classList.add('event-modal-confirm');
+    confirmBtn.textContent = '✓ Понятно';
+    confirmBtn.onclick = () => modal.remove();
+
+    modalContent.appendChild(closeBtn);
+    modalContent.appendChild(iconDiv);
+    modalContent.appendChild(modalTitle);
+    modalContent.appendChild(taskContainer);
+    modalContent.appendChild(confirmBtn);
+    modal.appendChild(modalContent);
+
+    document.body.appendChild(modal);
+    modal.style.display = 'flex';
+}
+function addModalStyles() {
+    const styleSheet = document.createElement("style");
+    styleSheet.textContent = `
+    .event-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(24,69,145,0.9) 100%);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(8px);
+    }
+    
+    .event-modal-content {
+        background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
+        padding: 50px 60px;
+        border-radius: 30px;
+        width: 85%;
+        max-width: 900px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 
+            0 25px 80px rgba(0, 0, 0, 0.5),
+            0 0 0 3px rgba(255,255,255,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.8);
+        animation: modalAppear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes modalAppear {
+        from {
+            opacity: 0;
+            transform: scale(0.7) translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+    
+    /* Крестик закрытия */
+    .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        color: #184591;
+        font-size: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(24, 69, 145, 0.1);
+    }
+    
+    .close-modal:hover {
+        color: #ffffff;
+        background: #ff4444;
+        transform: rotate(90deg);
+    }
+    
+    /* Заголовок */
+    .event-modal-title {
+        font-size: 42px;
+        font-weight: 800;
+        margin-bottom: 35px;
+        text-align: center;
+        font-family: blacknort, Arial, sans-serif;
+        padding: 15px 70px 15px 15px;
+        border-radius: 15px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        letter-spacing: 1px;
+    }
+    
+    /* Контейнер задания */
+    .event-modal-task {
+        margin-bottom: 30px;
+    }
+    
+    /* Текст вопроса */
+    .event-modal-question {
+        font-size: 32px;
+        line-height: 1.5;
+        text-align: center;
+        margin-bottom: 35px;
+        color: #1a1a2e;
+        font-weight: 600;
+        padding: 25px;
+        background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+        border-radius: 20px;
+        border-left: 6px solid #184591;
+    }
+    
+    /* Контейнер вариантов ответов */
+    .event-modal-options {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+    
+    /* Вариант ответа */
+    .event-modal-option {
+        background: linear-gradient(135deg, #ffffff 0%, #f5f7ff 100%);
+        padding: 25px 35px;
+        border-radius: 18px;
+        font-size: 28px;
+        font-weight: 500;
+        color: #184591;
+        border: 3px solid #c5d5f5;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    
+    .event-modal-option:hover {
+        background: linear-gradient(135deg, #184591 0%, #2a5298 100%);
+        border-color: #184591;
+        color: #ffffff;
+        transform: translateX(15px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(24, 69, 145, 0.4);
+    }
+    
+    /* Текст для activity и letter */
+    .event-modal-text {
+        font-size: 30px;
+        line-height: 1.7;
+        text-align: center;
+        color: #1a1a2e;
+        padding: 30px;
+        background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+        border-radius: 20px;
+        border: 3px dashed #ffc107;
+        font-weight: 500;
+    }
+    
+    /* Кнопка подтверждения */
+    .event-modal-confirm {
+        display: block;
+        width: 320px;
+        margin: 40px auto 0;
+        padding: 22px 50px;
+        background: linear-gradient(135deg, #69d160 0%, #4CAF50 50%, #45a049 100%);
+        border: none;
+        border-radius: 60px;
+        font-size: 28px;
+        font-weight: 800;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 
+            0 8px 25px rgba(105, 209, 96, 0.5),
+            inset 0 2px 0 rgba(255,255,255,0.3);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    
+    .event-modal-confirm:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 
+            0 15px 35px rgba(105, 209, 96, 0.6),
+            inset 0 2px 0 rgba(255,255,255,0.3);
+    }
+    
+    .event-modal-confirm:active {
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    /* Стили для разных типов заданий */
+    .event-modal-content.truth-modal {
+        border-top: 8px solid #69d160;
+    }
+    
+    .event-modal-content.activity-modal {
+        border-top: 8px solid #ffc107;
+    }
+    
+    .event-modal-content.letter-modal {
+        border-top: 8px solid #8e44ad;
+    }
+
+    /* Иконки для типов */
+    .event-modal-icon {
+        font-size: 60px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Адаптивность для больших экранов */
+    @media (min-width: 1400px) {
+        .event-modal-content {
+            max-width: 1000px;
+            padding: 60px 80px;
+        }
+        
+        .event-modal-title {
+            font-size: 48px;
+        }
+        
+        .event-modal-question {
+            font-size: 36px;
+        }
+        
+        .event-modal-option {
+            font-size: 32px;
+            padding: 30px 40px;
+        }
+        
+        .event-modal-text {
+            font-size: 34px;
+        }
+        
+        .event-modal-confirm {
+            font-size: 32px;
+            width: 380px;
+            padding: 25px 60px;
+        }
+    }
+    
+    /* Скроллбар */
+    .event-modal-content::-webkit-scrollbar {
+        width: 12px;
+    }
+    
+    .event-modal-content::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    
+    .event-modal-content::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #184591, #2a5298);
+        border-radius: 10px;
+    }
+    `;
+    document.head.appendChild(styleSheet);
+}
